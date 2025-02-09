@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ANyONe Network Gateway</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0; 
+        padding: 10px 30px 10px;
+        background-image: url('../images/popupback.png');
+        background-size: cover; 
+        background-repeat: no-repeat; 
+        background-position: center;
+        background-color: #6d8392;
+        color: white;
+        text-align: center;
+        width: 220px; 
+        height: 500px; 
+        overflow: hidden; 
+      }
+
+      #anonLogo {
+        margin: 10px auto 10px;
+        display: block;
+      }
+
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 15px;
+      }
+
+      .switch input {
+        opacity: 1;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e74c3c;
+        transition: 0.4s;
+        border-radius: 34px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 25px;
+        width: 25px;
+        left: 0px;
+        bottom: -4px;
+        background-color: #ffffff;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #02af50;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(26px);
+      }
+
+      #statusMessage {
+        margin-top: 30px;
+        font-size: 18px;
+        font-weight: none;
+        min-height: 30px;
+      }
+
+      .button-container-1 {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: center; 
+        flex-wrap: nowrap; 
+        align-items: center; 
+        position: absolute; 
+        bottom: 140px;
+        left: 0;
+        right: 0;
+      }
+
+      .button-container-2 {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center; 
+        flex-wrap: nowrap; 
+        align-items: center; 
+        position: absolute; 
+        bottom: 65px;
+        left: 0;
+        right: 0;
+      }
+
+      button {
+        color: white;
+        padding: 5px 15px;
+        font-size: 14px;
+        font-weight: normal;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 0 5px;
+        width: 100px; 
+        height: auto; 
+        box-sizing: border-box;
+        text-align: center; 
+        white-space: normal;
+        overflow: visible; 
+        display: inline-flex; 
+        flex-direction: column; 
+        justify-content: center;  
+      }
+
+      #checkAnyoneButton {
+        background-color: #0280AF;
+        border: 1px solid #0280AF;
+      }
+
+      #checkAnyoneButton:hover {
+        background-color: #0074f0;
+      }
+
+      #updateProxiesButton {
+        background-color: #0a121e;
+        border: 1px solid #0280AF;
+      }
+
+      #updateProxiesButton:hover {
+        background-color: #0280AF;
+      }
+
+      #optionsButton {
+        background-color: #0a121e;
+        border: 1px solid #03bdc5;
+      }
+
+      #optionsButton:hover {
+        background-color: #03bdc5;
+      }
+
+      #dappStoreButton {
+        background-color: #0a121e;
+        border: 1px solid #03bdc5;
+      }
+
+      #dappStoreButton:hover {
+        background-color: #03bdc5;
+      }
+
+      .footer {
+        position: absolute;
+        bottom: 0px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+      }
+
+      .social-link {
+        display: block;
+        width: 30px;
+        height: 30px; 
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        margin-top: 10px;
+        margin-bottom: 30px;
+      }
+
+      .social-link.debros { background-image: url('../images/debroslogo.png'); }
+      .social-link.x { background-image: url('../images/x.png'); }
+      .social-link.docs { background-image: url('../images/github.png'); }
+      .social-link.anyone { background-image: url('../images/anonlogo.png'); }
+    </style>
+  </head>
+  <body>
+    <img src="../images/anonlogo.png" alt="AnON Logo" width="120" height="120" id="anonLogo">
+    <h1>ANyONe Proxy</h1>
+
+    <label class="switch">
+      <input type="checkbox" id="proxyToggle">
+      <span class="slider"></span>
+    </label>
+
+    <p id="statusMessage"></p>
+
+    <div class="button-container-1">
+      <button id="checkAnyoneButton">Check ANyONe</button>
+      <button id="updateProxiesButton">Update Proxies</button>
+    </div>
+
+    <div class="button-container-2">
+      <button id="optionsButton">Custom Settings</button>
+      <button id="dappStoreButton">dApp Store</button>
+    </div>
+
+    <div class="footer">
+      <a href="https://debros.io" class="social-link debros" target="_blank"></a>
+      <a href="https://x.com/debrosofficial" class="social-link x" target="_blank"></a>
+      <a href="https://github.com/DeBrosOfficial/ANyONe-Extension" class="social-link docs" target="_blank"></a>
+      <a href="https://anyone.io" class="social-link anyone" target="_blank"></a>
+    </div>
+
+    <script src="../js/popup.js"></script>
+  </body>
+</html>

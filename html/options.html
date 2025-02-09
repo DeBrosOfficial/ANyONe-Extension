@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Proxy Settings</title>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+        margin: 0px;
+        text-align: center;
+        color: #ffffff;
+        width: auto;
+        background-image: url('../images/optionsback.png'); 
+        background-size: cover;
+        background-position: center; 
+        background-repeat: no-repeat;
+        background-attachment: fixed; 
+        min-height: 100vh; 
+        overflow-y: hidden; 
+      }
+
+      h1 {
+        margin-top: 20px; 
+      }
+
+      .container {
+        max-width: 400px;
+        margin: 50px auto; 
+        padding-top: 10px; 
+        padding-bottom: 1px; 
+        padding-left: 0px;
+        padding-right: 0px;
+        background-color: rgba(0, 0, 0, 0.6); 
+        border-radius: 10px; 
+      }
+
+      .form-group {
+        display: flex; 
+        align-items: center; 
+        justify-content: space-between; 
+        margin-bottom: 10px;
+      }
+
+      label {
+        display: inline-block;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        margin-left: 5px;
+        font-weight: bold;
+        white-space: nowrap;
+        color: #ecf0f1; 
+      }
+
+      select, input {
+        width: 130px;
+        padding: 5px;
+        margin: 0; 
+        border-radius: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        color: black; 
+        background-color: #ecf0f1;
+      }
+
+      #proxyPort {
+        width: 60px;
+      }
+
+      .no-proxy-group {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin:20px;
+      }
+
+      .no-proxy-group label {
+        margin-bottom: 0; 
+        margin-top: 0; 
+        margin-right: 2px; 
+      }
+
+      #noProxyFor {
+        width: 75%; 
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 5px;
+        margin: 0 auto;
+        border-radius: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        color: black;
+        background-color: #ecf0f1;
+        display: block;
+        max-width: 100%;
+      }
+
+      button {
+        padding: 7px 3px;
+        margin: 10px 0px;
+        border: 1px solid black;
+        border-radius: 5px;
+        background-color: #ecf0f1;
+        color: black;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        display: inline-block;
+      }
+
+      button:hover {
+        background-color: #2ecc71;
+      }
+
+      .container button#disableProxy:hover {
+        background-color: #e74c3c;
+      }
+
+      .container button#checkAnyoneButton:hover {
+        background-color: #00ced1;
+      }
+    
+      .container .button-group {
+        display: flex;
+        justify-content: center; 
+        gap: 10px;
+        margin-top: 10px; 
+      }
+      .container .button-group button {
+        display: inline-block; 
+      }
+
+      .credits {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column; 
+        align-items: center; 
+      }
+
+      .credits-link {
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px; 
+        transition: all 0.3s ease;
+      }
+
+      .credits-link:hover {
+        opacity: 0.8;
+        transform: translateY(-2px);
+        color: #2ecc71;
+      }
+
+      .credits-link span {
+        font-size: 14px;
+        font-weight: bold;
+        transition: color 0.1s ease;
+      }
+
+      .credits img {
+        margin-right: 10px;
+        transition: transform 0.3s ease;
+      }
+
+      .credits-link:hover img {
+        transform: scale(1.1);
+      }
+
+      #anonLogo {
+        margin: 20px auto 10px;
+        display: block;
+      }
+
+      #statusMessage {
+        height: 40px; 
+        margin: 10px 0; 
+        text-align: center;
+        padding: 0 20px;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          width: 90%;
+          margin: 0 auto;
+        }
+
+        select, input, button {
+          width: 100%;
+        }
+
+        .form-group {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        label {
+          margin-bottom: 5px;
+        }
+        .button-group {
+          flex-direction: row; 
+        }
+        .credits {
+          align-items: flex-start; 
+        }
+        .no-proxy-group label {
+          width: 100%;
+         }
+         #noProxyFor {
+            width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img src="../images/anonlogo.png" alt="AnON Logo" width="120" height="120" id="anonLogo">
+      <h1>My Socks5 Proxy Settings</h1>
+      <label for="proxyIP">
+        Host
+        <input type="text" id="proxyIP" placeholder="enter host">
+      </label>
+
+      <label for="proxyPort">
+        Port
+        <input type="number" id="proxyPort" placeholder="port">
+      </label>
+
+      <div class="no-proxy-group">
+        <label for="noProxyFor">No Proxy for</label>
+        <input type="text" id="noProxyFor" placeholder="e.g., localhost, *.example.com" name="noProxyFor">
+      </div>
+
+      <div class="button-group">
+        <button id="saveSettings">Save & Enable</button>
+        <button id="disableProxy">Disable</button> 
+        <button id="checkAnyoneButton">Check ANyONe</button> 
+      </div>
+      <p id="statusMessage"></p>
+
+      <div class="credits">
+        <a href="https://debros.io" target="_blank" rel="noopener noreferrer" class="credits-link" aria-label="Visit DeBros website">
+          <img src="../images/debroslogo.png" alt="DeBros Logo" width="30" height="30">
+          <span>This extension was created by DeBros</span>          
+        </a>
+        <a href="https://github.com/DeBrosOfficial/ANyONe-Extension" target="_blank" rel="noopener noreferrer" class="credits-link" aria-label="Explore the open source code and documentation">
+          <span>It's open source - explore the code and docs here</span>
+        </a>
+      </div>
+    </div>
+    <script src="../js/options.js"></script>
+  </body>
+</html>
