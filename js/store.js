@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const comingSoonImage = document.getElementById("fullScreenImage");
 
   // Check if the domain is working
-  fetch('https://store.debros.io', { method: 'HEAD', mode: 'no-cors' })
+  fetch('https://dapps.debros.io', { method: 'HEAD', mode: 'no-cors' })
     .then(response => {
       if (response.ok) {
-        window.location.href = 'https://store.debros.io';
+        window.location.href = 'https://dapps.debros.io';
       } else {
         showComingSoonMessage();
       }
