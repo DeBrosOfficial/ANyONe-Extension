@@ -74,12 +74,15 @@ function checkProxyFunctionality(proxy, callback) {
       return;
     }
 
-    // Use Mullvad's DNS server for privacy check
-    fetch('https://doh.mullvad.net/dns-query?dns=q80BAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB', { 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+    fetch('https://check.en.anyone.tech', { 
       mode: 'no-cors',
-      headers: { 'accept': 'application/dns-message' }
+      signal: controller.signal
     })
       .then(response => {
+        clearTimeout(timeoutId);
         if (response.ok) {
           console.log("Proxy check successful");
           callback(true); // Connection successful
@@ -89,7 +92,11 @@ function checkProxyFunctionality(proxy, callback) {
         }
       })
       .catch(error => {
-        console.error("Error in proxy check:", error);
+        if (error.name === 'AbortError') {
+          console.log("Request timed out");
+        } else {
+          console.error("Error in proxy check:", error);
+        }
         callback(false);
       });
   });

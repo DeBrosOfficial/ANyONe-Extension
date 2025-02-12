@@ -29,9 +29,12 @@ chrome.storage.local.get(["proxyIP", "proxyPort", "proxyType", "noProxyFor"], (s
   noProxyFor.value = settings.noProxyFor || ""; 
 });
 
-// Function to check internet connectivity
+// Function to check internet connectivity with a timeout
 function checkInternetConnection(host, port) {
   return new Promise((resolve, reject) => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
     const proxyConfig = {
       mode: "fixed_servers",
       rules: {
@@ -46,16 +49,18 @@ function checkInternetConnection(host, port) {
 
     chrome.proxy.settings.set({ value: proxyConfig, scope: "regular" }, () => {
       if (chrome.runtime.lastError) {
+        clearTimeout(timeoutId);
         reject(chrome.runtime.lastError.message);
         return;
       }
 
-      fetch('https://doh.mullvad.net/dns-query?dns=q80BAAABAAAAAAAAA3d3dwdleGFtcGxlA2NvbQAAAQAB', { 
+      fetch('https://check.en.anyone.tech', { 
         method: 'GET',
         mode: 'no-cors',
-        headers: { 'accept': 'application/dns-message' }
+        signal: controller.signal
       })
         .then(response => {
+          clearTimeout(timeoutId);
           if (response.ok) {
             resolve(true); // Connection successful
           } else {
@@ -63,7 +68,12 @@ function checkInternetConnection(host, port) {
           }
         })
         .catch(error => {
-          reject(error.message || "Network error encountered");
+          clearTimeout(timeoutId);
+          if (error.name === 'AbortError') {
+            reject("Connection timed out");
+          } else {
+            reject(error.message || "Network error encountered");
+          }
         });
     });
   });
@@ -109,8 +119,12 @@ function clearStatusMessage() {
   }, 5000); // Clear message after 5 seconds (5000 milliseconds)
 }
 
+let isCheckingProxy = false;
+
 // Save settings when clicking "Save Settings"
 saveSettings.addEventListener("click", () => {
+  if (isCheckingProxy) return; // If a check is already in progress, do nothing
+
   if (!isValidIP(proxyIP.value)) {
     statusMessage.textContent = "Invalid IP address.";
     statusMessage.style.color = "red";
@@ -133,6 +147,10 @@ saveSettings.addEventListener("click", () => {
   statusMessage.style.fontSize = "16px";
   statusMessage.style.fontFamily = "Arial";
   statusMessage.style.fontWeight = "bold";
+
+  // Disable the saveSettings button
+  saveSettings.disabled = true;
+  isCheckingProxy = true;
 
   const noProxyExceptions = noProxyFor.value.split(',').map(ex => ex.trim());
   const filteredExceptions = noProxyExceptions.filter(ex => ex !== '');
@@ -171,6 +189,11 @@ saveSettings.addEventListener("click", () => {
       statusMessage.style.fontFamily = "Arial";
       statusMessage.style.fontWeight = "bold";
       chrome.proxy.settings.clear({});
+    })
+    .finally(() => {
+      // Re-enable the saveSettings button after the check is complete
+      saveSettings.disabled = false;
+      isCheckingProxy = false;
     });
 });
 
