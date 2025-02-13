@@ -1,7 +1,14 @@
 # ANyONe Extension - Manage Socks5 Proxy Settings
 
 ## Overview
-The ANyONe Proxy Extension is a powerful Chromium-based browser extension designed to help users manage and switch between different proxy settings effortlessly. It offers quick access through the browser's toolbar and detailed control via an options page. Additionally, the extension features a dApp Store, enabling users to access decentralized applications directly from the extension, ensuring secure and private browsing. This extension was created by DeBros and is not an official product from ANyONe; it's a community-driven project.
+**The ANyONe Proxy Extension** is a powerful Chromium-based browser extension designed to help users manage and switch between different proxy settings effortlessly. It offers:
+
+- **Quick access** through the browser's toolbar.
+- **Detailed control** via an options page.
+
+Additionally, the extension features a **dApp Store**, enabling users to access decentralized applications directly from the extension. **This tool also simplifies access to the Socks5 Proxy of your official ANyONe router.** Created by DeBros, it is a community-driven project and **not an official ANyONe product**.
+
+**Note:** It's recommended to leverage local Socks5 Proxies within our internal network for optimal security and performance. Always confirm you are within the ANyONe network by pressing the 'Check ANyONe' button.
 
 ## 
 <p align="center">
