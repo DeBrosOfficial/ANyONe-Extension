@@ -177,8 +177,16 @@ saveSettings.addEventListener("click", () => {
           statusMessage.style.fontFamily = "Arial";
           statusMessage.style.fontWeight = "bold";
           applyProxySettings(proxyIP.value, proxyPort.value, filteredExceptions);
-          chrome.runtime.sendMessage({ action: "updateProxy", type: "custom", proxy: { host: proxyIP.value, port: parseInt(proxyPort.value) }, exceptions: filteredExceptions });
-          clearStatusMessage();
+          
+          // Send response to the message sender
+          chrome.runtime.sendMessage({ action: "updateProxy", type: "custom", proxy: { host: proxyIP.value, port: parseInt(proxyPort.value) }, exceptions: filteredExceptions }, (response) => {
+            if (chrome.runtime.lastError) {
+              console.error("Error sending message:", chrome.runtime.lastError);
+            } else {
+              console.log("Response received:", response);
+            }
+            clearStatusMessage();
+          });
         }
       });
     })
@@ -189,6 +197,16 @@ saveSettings.addEventListener("click", () => {
       statusMessage.style.fontFamily = "Arial";
       statusMessage.style.fontWeight = "bold";
       chrome.proxy.settings.clear({});
+
+      // Send a message indicating proxy setup failed
+      chrome.runtime.sendMessage({ action: "proxyFailed", error: error }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("Error sending message:", chrome.runtime.lastError);
+        } else {
+          console.log("Response received for proxy failure:", response);
+        }
+        clearStatusMessage();
+      });
     })
     .finally(() => {
       // Re-enable the saveSettings button after the check is complete

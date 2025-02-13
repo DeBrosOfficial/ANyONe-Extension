@@ -158,6 +158,15 @@ document.addEventListener("DOMContentLoaded", () => {
       statusMessage.style.color = "#f39c12"; // Orange for loading
     } else if (message.action === "updateStatus") {
       updateStatusFromBackground(message);
+    } else if (message.action === "toggleOff") {
+      // This is for when a proxy setup fails
+      proxyToggle.checked = false;
+      statusMessage.textContent = "Failed to set up proxy. Please check your settings.";
+      statusMessage.style.color = "#e74c3c"; // Red for error
+      // You might want to clear this message after some time or on interaction
+      setTimeout(() => {
+        statusMessage.textContent = "";
+      }, 5000); // Clear after 5 seconds
     }
   });
 

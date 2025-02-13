@@ -1,5 +1,4 @@
 let proxies = []; // Initially empty, will be populated from local storage or fetched from the server
-
 let currentProxyIndex = 0; // Start with the first proxy
 let proxyEnabled = false;
 
@@ -191,6 +190,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ status: "error", message: "No public proxy available at this moment. Please configure a custom proxy in the settings." });
       }
     });
+    return true; // For async response
   } else if (message.action === "disableProxy") {
     console.log("Disabling proxy...");
     clearProxySettings();
@@ -238,6 +238,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
           sendResponse({ status: "error", message: "No public proxy available at this moment. Please configure a custom proxy in the settings." });
         }
       });
+      return true; // For async response
     } else if (message.type === "disabled") {
       clearProxySettings();
       chrome.storage.local.set({ proxyEnabled: false, proxyType: null });
@@ -252,6 +253,19 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
       });
     }
+  } else if (message.action === "proxyFailed") {
+    console.log("Proxy setup failed:", message.error);
+    clearProxySettings();
+    chrome.storage.local.set({ proxyEnabled: false, proxyType: null });
+    chrome.tabs.query({}, function(tabs) {
+      for (let tab of tabs) {
+        chrome.tabs.sendMessage(tab.id, {action: "toggleOff"}, function(response) {
+          if (chrome.runtime.lastError) {
+            console.warn("Warning: Could not send message to tab " + tab.id + ". Tab might have been closed.", chrome.runtime.lastError.message);
+          }
+        });
+      }
+    });
   } else if (message.action === "updateProxies") {
     console.log("Attempting to update proxies...");
     fetchProxies().then(() => {
